@@ -35,6 +35,18 @@ final public class Game {
         return false
     }
     
+    public var isFrameFinished: Bool {
+        switch frames.last?.state {
+        case .unfinishedFrame: return false
+        case .strike, .spare, .finishedFrame: return true
+        default: return false
+        }
+    }
+    
+    public var frameCount: Int {
+        frames.count
+    }
+    
     private var frames: [Frame]
 
     public init() {

@@ -70,8 +70,38 @@ final class BowlingTests: XCTestCase {
         XCTAssertEqual(true, game.isFinish)
     }
     
+    // MARK: Phase 6-7
+    
+    func test_whenAddTwoPlayers_shouldGetPlayersFromMonitor() throws {
+        
+        addPlayersGlebAndIgor()
+        
+        XCTAssertEqual(2, monitor.players.count)
+    }
+    
+    func test_whenGameStart_FirstPlayerGetTurn() throws {
+        
+        addPlayersGlebAndIgor()
+        
+        XCTAssertEqual(0, monitor.playerTurnIndex)
+    }
+    
+    func test_whenFirstPlayersFrameEnds_SecondPlayerShouldGetTurn() throws {
+        addPlayersGlebAndIgor()
+        
+        monitor.roll(2)
+        monitor.roll(2)
+        
+        XCTAssertEqual(1, monitor.playerTurnIndex)
+    }
+    
     
     // MARK: - Help
+    func addPlayersGlebAndIgor() {
+        monitor.addPlayer("Gleb")
+        monitor.addPlayer("Igor")
+    }
+    
     func doSpareRoll() {
         game.roll(7)
         game.roll(3)
@@ -83,11 +113,14 @@ final class BowlingTests: XCTestCase {
     
     // MARK: - Setup
     private var game: Game!
+    private var monitor: Monitor!
     override func setUp() {
         game = Game()
+        monitor = Monitor()
     }
     
     override func tearDown() {
         game = nil
+        monitor = nil
     }
 }
